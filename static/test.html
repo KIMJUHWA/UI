@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>SPA</title>
+        <link rel="stylesheet" href="./css/test.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script>
+            /**************************************************
+             * 게시판 만들기
+             * 기능 정의 (5가지) + α
+             * 1. 작성하기 : 사용자에게 입력값을 받은 후 저장소에 남기기
+             * 2. 목록 보기 : 저장소에 있는 데이터를 목록으로 화면 표현하기
+             * 3. 자세히 보기 : 목록 중에 하나의 글을 선택한 내용만
+             * 4. 수정하기 : 선택한 글의 내용을 수정하는 화면 표현하기 + 저장(1)
+             * 5. 삭제하기 : 선택한 글을 목록 내용에서 빼고 + 저장(1)
+             * 6. 검색하기 : 목록 글에서 입력 받은 키워드를 찾아 화면 표현하기
+
+             화면 표현하기 - a태그, javascript
+             같은화면에서 표현할껀지 다른 곳에서 가져올껀지
+             **************************************************/
+
+            $(document).ready(function(){
+                if(location.search != "") {
+                    var param = decodeURI(location.search.replace("?",""));
+                    // location.search = ?로 시작,
+                    // location.search.replace("?","") = ?를 공백으로 바꾸기
+                    // decodeURI = 콘솔에서 한글깨짐현상 처리
+                    console.log(param);
+                    var params = param.split("&");
+                    // split() : 문자열 분리 메서드
+                    // split("&",3) = &를 기준으로 3개까지만 분리, 개수 지정안하면 전부 분리함
+                    // "&"가 있으면 분리
+                    // &로 title과 contents구분지음
+                    console.log(params);
+                    var row = {};
+                    for (var i = 0; i < params.length; i++){
+                        // params.length = 2
+                        // "title=제목" , "contents=내용"
+                        var map = params[i].split("=");
+                        // params[0] = "title", "제목"
+                        // params[1] = "contents", "내용"
+                        console.log(params[i].split("="));
+                        row[map[0]] = map[1];
+                        // 제목
+                    }
+                    var list = [];
+                    if(localStorage.getItem("list") != null){
+                        //localStorage에서 list를 가져오는데 null이 아니면
+                        list = JSON.parse(localStorage.getItem("list"));
+                        //JSON.parse(""); 문자열을 JSON으로 변환
+                    }
+                    list[list.length] = row;
+                    localStorage.setItem("list", JSON.stringify(list));
+                    //location.search = "";
+                }
+                $("li").click(function(){});
+            });
+        </script>
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li>목록</li>
+                <li><a href="test2.html">신규</a></li>
+            </ul>
+        </nav>
+        <section class="contents">
+
+        </section>
+        <footer></footer>
+    </body>
+</html>
